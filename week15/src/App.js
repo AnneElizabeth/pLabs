@@ -181,10 +181,78 @@
  */
 
 /*-- ALL IMPORTS HERE -- */
+import React from 'react';
 import './App.css'
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 
 function App() {
   /* -- YOUR CODE/CRUD OPERATIONS HERE --*/
+  const API_URL = 'https://64bf199d5ee688b6250d1f4c.mockapi.io/ees'
+
+
+  function getUsers() {
+    const [users, setUsers] = useState([])
+
+    fetch(API_URL).then(data => data.JSON).then(data => setUsers(data))
+  }
+
+  useEffect(() => {
+    getUsers
+  }, [])
+
+
+
+  function deleteUser(id) {
+    fetch(API_URL + id, { method: 'DELETE'}).then(() => getUsers())
+  }
+
+  
+
+  function updateUser(userObject){
+    const [updatedName, setUpdatedName] = useState('')
+    const [updatedJobTitle, setUpdatedJobTitle] = useState('')
+    const [updatedCompanyName, setUpdatedCompanyName] = useState([''])
+
+    let updatedUserObject = updatedUserObject
+    let updatedUserObject.userName = updatedName
+    let updatedUserObject.jobTitle = updatedJobTitle
+    let updatedUserObject.companyName = updatedCompanyName
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedUserObject)
+    };
+
+    fetch(API_URL, requestOptions)
+      .then(response => response.json())
+      .then(data => this.setState({ postId: data.id }));
+    }
+  }
+
+  function postNewUser() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        name: newUserName, 
+        jobTitle: newUserJobTitle,
+        companyName: newUserCompanyName
+      })
+    };
+
+    const [newUserName, setNewUserName] = useState([])
+    const [newUserJobTitle, setNewUserJobTitle] = useState([])
+    const [newUserCompanyName, setNewUserCompanyName] = useState([])
+
+
+  fetch(API_URL, requestOptions) {
+      .then(response => response.json())
+      .then(data => this.setState({ postId: data.id }));
+    }
+  }
 
   return (
     <div className="App">

@@ -24,6 +24,31 @@
       "fullName": "Tammy Kunde",
       "researchAssignment": "bird",
       "id": 5
+    },
+    {
+      "fullName": "Douglas Fur",
+      "researchAssignment": "snail",
+      "id": 6
+    },
+    {
+      "fullName": "Aspen Tree",
+      "researchAssignment": "vole",
+      "id": 7
+    },
+    {
+      "fullName": "Kitten Squirrel",
+      "researchAssignment": "squirrels",
+      "id": 8
+    },
+    {
+      "fullName": "Gawy Longpaw",
+      "researchAssignment": "bird",
+      "id": 9
+    },
+    {
+      "fullName": "Bug Zapper",
+      "researchAssignment": "grasshoppers",
+      "id": 10
     }
   ]
 }

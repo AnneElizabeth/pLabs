@@ -76,6 +76,9 @@ Part 1: Setup your JSON server`)
  *
  * ↓ YOUR CODE HERE ↓ */
 
+const baseURL = 'http://localhost:3000/studentRoster'
+
+
 /*------------------------ Part 2: HTTP Verb: GET ------------------------*/
 console.log(
   `-------------------------- 
@@ -91,6 +94,22 @@ Part 2: GET and displaying the information`
  *         Reminder: While you are not required to, the lab solution uses a <table>
  *
  * ↓ YOUR CODE HERE ↓ */
+
+$.get(baseURL).then(students => students.forEach(addStudentRow))
+
+
+
+function addStudentRow (student) {
+  const studentAssignments = document.querySelector('#studentAssignments')
+  studentAssignments.innerHTML +=
+  `
+    <tr id=${student.id}>
+      <td>${student.fullName}</td>
+      <td>${student.researchAssignment}
+      <td><button type='submit' onclick="deleteStudent" >🗑</button></td>
+    </tr>
+  `
+}
 
 /*------------------------ Part 3: HTTP Verb: POST ------------------------*/
 console.log(
@@ -116,6 +135,36 @@ Part 3: POST and adding new students`
  *         Your button should now post a new user on click.
  *
  * ↓ YOUR CODE HERE ↓ */
+
+const addStudentForm = document.querySelector('#addForm')
+addStudentForm.addEventListener('submit', newStudent)
+
+function newStudent(e) {
+    e.preventDefault()
+
+    const fullName = addStudentForm.querySelector('#fullName').value
+    const researchAssignment = addStudentForm.querySelector('#researchAssignment').value
+
+    let newStudent = {fullName, researchAssignment}
+
+    fetch (baseURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify (
+            newStudent
+        )
+    })
+    .then(resp => resp.json())
+    .then(newStudent => {
+       addStudentRow(newStudent)
+        addStudentForm.reset()
+    })
+    .catch(function (error) {
+    document.body.innerHTML = error.message
+    })
+}
 
 /*------------------------ Part 4: HTTP Verb: DELETE ------------------------*/
 console.log(
@@ -149,6 +198,21 @@ Part 4: DELETE and deleting individual students`
  *         Your elements should now be getting deleted!
  *
  * ↓ YOUR CODE HERE ↓ */
+function deleteStudent () {  
+  const studentRow = document.getElementsByTagName('tr')
+  const id = studentRow.getElementById('#student.id.value')
+
+  fetch(baseURL + id, {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+    }).then( response => response.json())
+    .then(deletedStudent => {
+        console.log(deletedStudent)
+        location.reload()
+    })
+}
 
 /*------------------------ HTTP Verb: UPDATE ------------------------*/
 console.log(
